@@ -4,6 +4,11 @@
 </head>
 <body>
 <h1>Nexus Timetable</h1>
+<select id="destination">
+<option value="South Shields">South Shields</option>
+<option value="St James">St James</option>
+<option value="Ferrymead">Ferrymead</option>
+</select>
 <table>
 <thead>
 <tr>
@@ -12,26 +17,30 @@
 <th>Delay</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td>08:00</td>
-<td>South Shields</td>
-<td>0 minutes</td>
-</tr>
-<tr>
-<td>08:30</td>
-<td>St James</td>
-<td>5 minutes</td>
-</tr>
-<tr>
-<td>09:00</td>
-<td>Ferrymead</td>
-<td>10 minutes</td>
-</tr>
+<tbody id="departures">
 </tbody>
 </table>
-<p>
-<a href="https://www.nexus.org.uk/metro/tickets/delay-and-repay">Click here to claim Delay and Repay</a>
-</p>
+<script>
+var destination = document.getElementById("destination");
+var departures = document.getElementById("departures");
+
+destination.addEventListener("change", function() {
+  var selectedDestination = destination.options[destination.selectedIndex].value;
+  var departuresUrl = "https://www.nexus.org.uk/metro/timetables-and-stations/" + selectedDestination + "/timetable";
+  var departuresRequest = new XMLHttpRequest();
+  departuresRequest.open("GET", departuresUrl);
+  departuresRequest.onload = function() {
+    var departuresData = JSON.parse(departuresRequest.responseText);
+    departures.innerHTML = "";
+    for (var i = 0; i < departuresData.length; i++) {
+      var departure = departuresData[i];
+      var row = document.createElement("tr");
+      row.innerHTML = "<td>" + departure.time + "</td><td>" + departure.station + "</td><td>" + departure.delay + "</td>";
+      departures.appendChild(row);
+    }
+  };
+  departuresRequest.send();
+});
+</script>
 </body>
 </html>
