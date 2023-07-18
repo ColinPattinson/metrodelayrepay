@@ -5,6 +5,7 @@
 </head>
 <body>
 <h1>South Shields Departures</h1>
+<input type="text" id="destinationInput" placeholder="Enter a destination...">
 <ul>
 {% for departure in departures %}
 <li>
@@ -13,7 +14,6 @@
 </li>
 {% endfor %}
 </ul>
-<input type="text" id="destinationInput" placeholder="Enter a destination...">
 <script>
 const departures = [
   {
