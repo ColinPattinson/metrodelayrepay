@@ -1,46 +1,17 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Nexus Timetable</title>
+<title>South Shields Departures</title>
 </head>
 <body>
-<h1>Nexus Timetable</h1>
-<select id="destination">
-<option value="South Shields">South Shields</option>
-<option value="St James">St James</option>
-<option value="Ferrymead">Ferrymead</option>
-</select>
-<table>
-<thead>
-<tr>
-<th>Time</th>
-<th>Station</th>
-<th>Delay</th>
-</tr>
-</thead>
-<tbody id="departures">
-</tbody>
-</table>
-<script>
-var destination = document.getElementById("destination");
-var departures = document.getElementById("departures");
-
-destination.addEventListener("change", function() {
-  var selectedDestination = destination.options[destination.selectedIndex].value;
-  var departuresUrl = "https://www.nexus.org.uk/metro/timetables-and-stations/" + selectedDestination + "/timetable";
-  var departuresRequest = new XMLHttpRequest();
-  departuresRequest.open("GET", departuresUrl);
-  departuresRequest.onload = function() {
-    var departuresData = JSON.parse(departuresRequest.responseText);
-    departures.innerHTML = "";
-    for (var i = 0; i < departuresData.length; i++) {
-      var departure = departuresData[i];
-      var row = document.createElement("tr");
-      row.innerHTML = "<td>" + departure.time + "</td><td>" + departure.station + "</td><td>" + departure.delay + "</td>";
-      departures.appendChild(row);
-    }
-  };
-  departuresRequest.send();
-});
-</script>
+<h1>South Shields Departures</h1>
+<ul>
+{% for departure in departures %}
+<li>
+<a href="https://www.nexus.org.uk/metro/timetables-and-stations/south-shields/timetable?departure={{ departure.id }}">{{ departure.destination }}</a>
+<button>GET REFUND</button>
+</li>
+{% endfor %}
+</ul>
 </body>
 </html>
