@@ -59,6 +59,12 @@ const filterDepartures = (destination) => {
   });
 };
 
+const destinationInput = document.querySelector("#destinationInput");
+destinationInput.addEventListener("input", (event) => {
+  const destination = event.target.value;
+  filterDepartures(destination);
+});
+
 const destinationInput = document.querySelector("input");
 destinationInput.addEventListener("input", (event) => {
   const destination = event.target.value;
